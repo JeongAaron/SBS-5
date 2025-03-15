@@ -12,26 +12,23 @@ int main()
 
 	int array[SIZE] = { 9,6,8,1,3 };
 	int key = 0;
-	int count = 0;
-
-	while (count < SIZE)
+	for (int i = 0; i < SIZE - 1;i++)
 	{
-		for (int i = 0; i < count + 1; i++)
+		key = array[i + 1];
+		for (int j = 0;j < i + 1;j++)
 		{
-			key = array[count + 1];
-			if (array[i] > key)
+			if (array[i - j] > array[i - j + 1])
 			{
-				array[i + 1] = array[i];
-				array[i] = key;
+				array[i - j + 1] = array[i - j];
+				array[i - j] = key;
 			}
-			else if (array[i] < key)
+			else if (array[i - j] < array[i - j + 1])
 			{
-				
+				continue;
 			}
 		}
-		count++;
 	}
-	for (int i = 0; i < SIZE; i++)
+	for (int i = 0; i < SIZE;i++)
 	{
 		cout << array[i] << " ";
 	}
