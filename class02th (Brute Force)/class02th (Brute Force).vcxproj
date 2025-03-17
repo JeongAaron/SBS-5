@@ -24,6 +24,7 @@
     <ProjectGuid>{7bcc2854-66b0-4c40-b19a-7ea709e9a28e}</ProjectGuid>
     <RootNamespace>class02thBruteForce</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Class02th (Brute Force)</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -127,7 +128,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="class02th (Brute Force).cpp" />
+    <ClCompile Include="Class02th %28Brute Force%29.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
