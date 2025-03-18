@@ -12,16 +12,17 @@ int main()
     int array[] = { 1, 1, 3, 1, 2, 3, 4, 4, 2, 5 };
     int list[6] = { 0 };
 
-
-    for (int i = 0; i < 10; i++) 
+	for (int i = 0; i < 10;i++)
 	{
-		int x = array[i] % 6;
-        list[x]++;
-    }
-
-	for (int i = 1; i < 6; i++)
+		list[array[i]]++;
+	}
+	for (int i = 1; i < 6;i++)
 	{
-		cout << list[i] << " ";
+		for (int j = 0;j < list[i];j++)
+		{
+			cout << i << " ";
+		}
+		cout << endl;
 	}
 #pragma endregion
 
