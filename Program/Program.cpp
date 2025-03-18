@@ -10,16 +10,16 @@ int main()
 	//	개수를 세어 저장한 다음 정렬하는 알고리즘
 
     int array[] = { 1, 1, 3, 1, 2, 3, 4, 4, 2, 5 };
-    int list[5] = { 0 };
+    int list[6] = { 0 };
 
 
     for (int i = 0; i < 10; i++) 
 	{
-		int x = array[i] % 5;
+		int x = array[i] % 6;
         list[x]++;
     }
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 1; i < 6; i++)
 	{
 		cout << list[i] << " ";
 	}
