@@ -1,46 +1,53 @@
 ﻿#include <iostream>
 
+#define SIZE 8
+
 using namespace std;
 
-int Find(int list[], int left, int right)
+void binary_search(int list[],int key)
 {
-	if (left == right)
+	int left = 0;
+	int right = SIZE - 1;
+	while (left <= right)
 	{
-		return list[left];
-	}
-	else
-	{
-		int leftMax = Find(list, left, (left + right) / 2);
-		int rightMax =Find(list, (left + right) / 2 + 1, right);
-		if (leftMax > rightMax)
+		int mid = (left + right) / 2;
+		if (list[mid] == key)
 		{
-			return leftMax;
+			cout << "Key index: "<< mid << endl;
+			return;
+		}
+		else if (list[mid] < key)
+		{
+			left = mid + 1;
 		}
 		else
 		{
-			return rightMax;
+			right = mid - 1;
 		}
 	}
+	cout << "Not key found" << endl;
 }
-
 int main()
 {
-#pragma region 분할 정복
+#pragma region 이진 탐색
 
-	//	주어진 두 개 이상의 부분으로 문제를 나눈 뒤 각 부분 문제에 대한 답을 재귀 호출을 이용하여
-	//	계산한 다음, 그 답으로 부터 전체 문제의 답을 계산해내는 알고리즘
+	//	탐색 범위를 반으로 나누어 찾는 값을 포함하는 범위를
+	//	좁혀나가는 방식으로 동작하는 알고리즘
 
-	//	분할 (Divide) : 주어진 문제를 두 개 혹은 그 이상의 형식으로 나눈다
-	//	정복 (Conquer) : 나누어진 문제를 재귀적으로 해결해서 나누어진 문제를
-	//					더 이상 나누어서 문제가 필요 없을 때 까지 계속 분할
-	//	통합 (Combine) : 나누어서 해결한 문제들을 통합해서 원래 문제의 해답을 생성
-
-	int list[] = { 20,15,99,1,106,106};
-
-	int size = sizeof(list)/sizeof(int);
-
-	cout << Find(list, 0, size - 1);
-
+	int list[SIZE] = { 5,66,27,13,11,55,6,99 };
+	int count = 0;
+	while (count < SIZE)
+	{
+		for (int i = 0; i < SIZE - 1; i++)
+		{
+			if (list[i] > list[i + 1])
+			{
+			std:swap(list[i], list[i + 1]);
+			}
+		}
+		count++;
+	}
+	binary_search(list, 0);
 #pragma endregion
 
 }
