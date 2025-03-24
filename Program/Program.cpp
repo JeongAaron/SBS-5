@@ -4,27 +4,13 @@
 
 using namespace std;
 
-void merge_sort(int list[], int start, int end)
-{
-	if (start < end)
-	{
-		int mid = (start + end) / 2;
-		merge_sort(list, start, mid);
-		merge_sort(list, mid + 1, end);
-	}
-	else
-	{
-		
-	}
-} 
-
 void combine(int list[], int start, int mid, int end)
 {
 	int count = 0;
 	int left = start;
 	int right = mid + 1;
 	int* container = new int[end - start + 1];
-	while (left <= mid && right <= end) 
+	while (left <= mid && right <= end)
 	{
 		if (list[left] <= list[right])
 		{
@@ -34,22 +20,33 @@ void combine(int list[], int start, int mid, int end)
 		{
 			container[count++] = list[right++];
 		}
-		if (left != mid)
-		{
-			container[count++] = list[left++];
-		}
-		else if (right != end)
-		{
-			container[count++] = list[right++];
-		}
+	}
+	while (left <= mid)
+	{
+		container[count++] = list[left++];
+	}
+	while (right <= end)
+	{
+
+		container[count++] = list[right++];
 	}
 	for (int i = 0; i < end - start + 1; i++)
 	{
-		list[i] = container[i];
+		list[start + i] = container[i];
 	}
 	delete[] container;
 }
-2 3 7 5
+
+void merge_sort(int list[], int start, int end)
+{
+	if (start < end)
+	{
+		int mid = (start + end) / 2;
+		merge_sort(list, start, mid);
+		merge_sort(list, mid + 1, end);
+		combine(list, start, mid, end);
+	}
+}
 int main()
 {
 #pragma region 병합 정렬
@@ -64,7 +61,16 @@ int main()
 	//	2-3. 두 부분 리스트를 다시 하나의 정렬된 리스트로 병합한다.
 
 	int list[SIZE] = { 3,5,2,7,4,1,8,6 };
+	for (int i = 0; i < SIZE;i++)
+	{
+		cout << list[i] << " ";
+	}
+	cout << endl;
 	merge_sort(list, 0, SIZE - 1);
+	for (int i = 0; i < SIZE;i++)
+	{
+		cout << list[i] << " ";
+	}
 #pragma endregion
 
 }
