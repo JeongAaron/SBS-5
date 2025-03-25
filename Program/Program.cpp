@@ -1,76 +1,52 @@
 ﻿#include <iostream>
 
-#define SIZE 8
+#define SIZE 100001
 
 using namespace std;
 
-void combine(int list[], int start, int mid, int end)
+long long Fibonacci(long long list[], int n)
 {
-	int count = 0;
-	int left = start;
-	int right = mid + 1;
-	int* container = new int[end - start + 1];
-	while (left <= mid && right <= end)
+	if (n <= 0)
 	{
-		if (list[left] <= list[right])
-		{
-			container[count++] = list[left++];
-		}
-		else
-		{
-			container[count++] = list[right++];
-		}
+		list[n] = 0;
 	}
-	while (left <= mid)
+	else if (n == 1)
 	{
-		container[count++] = list[left++];
+		list[n] = 1;
 	}
-	while (right <= end)
+	if (list[n] != 0)
 	{
+		return list[n];
+	}
 
-		container[count++] = list[right++];
-	}
-	for (int i = 0; i < end - start + 1; i++)
+	list[0] = 0;
+	list[1] = 1;
+	for (int i = 2; i <= n; i++)
 	{
-		list[start + i] = container[i];
+		list[i] = list[i - 1] + list[i - 2];
 	}
-	delete[] container;
-}
+	return list[n];
 
-void merge_sort(int list[], int start, int end)
-{
-	if (start < end)
-	{
-		int mid = (start + end) / 2;
-		merge_sort(list, start, mid);
-		merge_sort(list, mid + 1, end);
-		combine(list, start, mid, end);
-	}
 }
 int main()
 {
-#pragma region 병합 정렬
+#pragma region 동적 계획법
 
-	//	하나의 리스트를 두 개의 균일한 크기로 분할하고분할된 부분 리스트를 정렬한 다음,
-	//	두 개의 정렬된 부분 리스트를 합하여 전체가 정렬된 리스트가 되게 하는 방법.
+	//	특정 범위까지의 값을 구하기 위해 그것과 다른 범위까지의 값을 이용해서
+	//	효율적으로 값을 구하는 알고리즘
 
-	//	1. 리스트의 길이가 0 또는 1이면 이미 정렬된 것으로 본다.
-	//	2. else
-	//	2-1. 정렬되지 않은 리스트를 절반으로 잘라 비슷한 크기의 두 부분 리스트로 나눈다.
-	//	2-2. 각 부분 리스트를 재귀함수를 이용하여 병합 정렬한다.
-	//	2-3. 두 부분 리스트를 다시 하나의 정렬된 리스트로 병합한다.
+	//	(Overlapping Subproblems)겹치는 부분 문제
+	//	동일한 작은 문제들이 반복하여 나타나는 경우를 의미
 
-	int list[SIZE] = { 3,5,2,7,4,1,8,6 };
-	for (int i = 0; i < SIZE;i++)
-	{
-		cout << list[i] << " ";
-	}
-	cout << endl;
-	merge_sort(list, 0, SIZE - 1);
-	for (int i = 0; i < SIZE;i++)
-	{
-		cout << list[i] << " ";
-	}
+	//	(Optimal Substructure)최적 부분 구조
+	//	부분 문제의 최적 결과 값을 사용하여 전체 문제의 최적 결과를 낼 수 있는 경우를 의미
+	
+	//	메모이제이션(Memoiztion)
+	//	프로그램이 동일한 계산을 반복해야 할 때, 이전에 계산한 값을 메모리에 저장함으로써
+	//	동일한 계산을 반복 수행하는 작업을 제거하여 프로그램의 실행 속도를 향상시키는 방법
+
+	long long list[SIZE] = { 0, };
+	cout << Fibonacci(list,100) << endl;
+
 #pragma endregion
-
 }
