@@ -1,87 +1,67 @@
 ﻿#include <iostream>
 
+#include <vector>
+
+#include <stack>
+
+#define SIZE 8
+
 using namespace std;
-const int & Greedy(int n)
+
+class Node
 {
-	int a = 0, b = 0, c = 0, d = 0, e = 0;
-	int count = 0;
-	while (n >= 10)
+private:
+	bool visited[SIZE];
+	vector<int> adjacencyList[SIZE];
+ public:
+	Node()
 	{
-		if (n >= 1000)
+		for (int i = 0; i < SIZE; i++)
 		{
-			n -= 1000;
-			count++;
-			a++;
-		}
-		else if (n >= 500)
-		{
-			n -= 500;
-			count++;
-			b++;
-		}
-		else if (n >= 100)
-		{
-			n -= 100;
-			count++;
-			c++;
-		}
-		else if (n >= 50)
-		{
-			n -= 50;
-			count++;
-			d++;
-		}
-		else if (n >= 10)
-		{
-			n -= 10;
-			count++;
-			e++;
+			visited[i] = false;
 		}
 	}
-	return count;
-}
+	void insert(int i, int j)
+	{
+		adjacencyList[i].push_back(j);
+		adjacencyList[j].push_back(i);
+	}
+	void Search(int start)
+	{
+		visited[start] = true;
+		stack<int> list;
+		list.push(start);
+		
+	}
+	
+};
 int main()
 {
-#pragma region 탐욕법
 
-	//	최적의 해를 구하는 데에 사용되는 근사적인 방법으로 여러 경우 중 하나를 검색해야 할 때 마다
-	//	그 수간에 최적이라고 생각되는 것을 선택해 나가는 방식으로 진행하여 최종적인 해답을 구하는 알고리즘
+#pragma region 깊이 우선 탐색(Depth First Search)
 
-	//	1. 탐욕 선택 속성
-	//	각 단계에서 '최적의 선택'을 했을 때 전체 문제에 대한 최적의 해를 구할 수 있는 경우
+	//	root 노트에서부터 다음 분기로 넘어가기 전에 해당 분기를 완벽하게 탐색하는 방법
 
-	//	2. 최적 부분 구조
-	//	전체 문제의 최적의 해가 '부분 문제의 초적의 해로 구성'될 수 있는 경우
+	//	깊이 우선 탐색은 스택을 활용
 
+	//	1. 시작 노드를 스택에 넣고 방문 처리를 한다.
 
-	//	탐욕 알고리즘으로 문제를 해결하는 방법
+	//	2. 스택의 최상단 노드에 방문하지 않은 인접 노드가 있으면 그 노드를 스택에 넣고 방문 처리
 
-	//	1. 선택 절차(Selection  Prucedure)
-	//	   현재 상태에서의 최선의 해를 선택
+	//	3. 방문하지 않은 인접 노드가 없으면 스택에서 최상단에 있는 노드를 꺼낸다.
 
-	//	2. 적절성 검사(Feasibility Check)
-	//     선택된 해가 문제의 조건을 만족하는지 검사
+	//	4. 더 이상 2번의 과정을 수행할 수 없을 때까지 반복
 
-	//	3. 해답 검사(Solution Check)
-	//     원래의 문제가 해결되었는지 검사하고, 해결되지 않았다면 선택 절차로 돌아감
-
-	//	그리디 알고리즘 단계
-
-	//	1. 문제의 최적 부분 구조를 결정
-	
-	//	2. 문제의 구조에 맞게 선택 절차를 정의
-
-	//	3. 선택 절차에 따라 선택을 수행
-
-	//	4. 선택된 해가 문제의 조건을 만족하는 지 검사
-
-	//	5. 조건을 만족하지 않으면 해당 해를 제외
-
-	//	6. 모든 선택이 완료되면 해답을 검사
-
-	//	7. 조건을 만족하지 않으면 해답으로 인정되지 않는다
-
-	cout << Greedy(1370) << endl;
+	Node graph;
+	graph.insert(1, 2);
+	graph.insert(1, 3);
+	graph.insert(2, 3);
+	graph.insert(2, 4);
+	graph.insert(2, 5);
+	graph.insert(3, 6);
+	graph.insert(3, 7);
+	graph.insert(4, 5);
+	graph.insert(6, 7);
 #pragma endregion
 
 }
