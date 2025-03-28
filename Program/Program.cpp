@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include <stack>
+#include <queue>
 
 #define SIZE 8
 
@@ -13,7 +13,8 @@ class Node
 private:
 	bool visited[SIZE];
 	vector<int> adjacencyList[SIZE];
- public:
+	queue<int> queue;
+public:
 	Node()
 	{
 		for (int i = 0; i < SIZE; i++)
@@ -26,42 +27,44 @@ private:
 		adjacencyList[i].push_back(j);
 		adjacencyList[j].push_back(i);
 	}
-	void Search(int start)
+	void search(int start)
 	{
 		visited[start] = true;
-		stack<int> list;
-		list.push(start);
-		
+		queue.push(start);
+		while (queue.empty() == false)
+		{
+			int x = queue.front();
+			queue.pop();
+			cout << x << " ";
+			for (int i = 0;i < adjacencyList[x].size();i++)
+			{
+				int next = adjacencyList[x][i];
+				if (visited[next] == false)
+				{
+					queue.push(next);
+					visited[next] = true;
+				}
+			}
+		}
 	}
-	
 };
 int main()
 {
+#pragma region 너비 우선 탐색(Breadth First Search)
 
-#pragma region 깊이 우선 탐색(Depth First Search)
+	//	시작 정점을 방문한 후 시작 정점에 인접한 모든 정점들을 우선 방문하는 방법
 
-	//	root 노트에서부터 다음 분기로 넘어가기 전에 해당 분기를 완벽하게 탐색하는 방법
-
-	//	깊이 우선 탐색은 스택을 활용
-
-	//	1. 시작 노드를 스택에 넣고 방문 처리를 한다.
-
-	//	2. 스택의 최상단 노드에 방문하지 않은 인접 노드가 있으면 그 노드를 스택에 넣고 방문 처리
-
-	//	3. 방문하지 않은 인접 노드가 없으면 스택에서 최상단에 있는 노드를 꺼낸다.
-
-	//	4. 더 이상 2번의 과정을 수행할 수 없을 때까지 반복
+	//	더 이상 방문하지 않은 정점이 없을 때까지 방문하지 않은 모든 정점들에 대해서도 너비 우선 탐색 적용
 
 	Node graph;
 	graph.insert(1, 2);
 	graph.insert(1, 3);
-	graph.insert(2, 3);
 	graph.insert(2, 4);
 	graph.insert(2, 5);
 	graph.insert(3, 6);
 	graph.insert(3, 7);
-	graph.insert(4, 5);
-	graph.insert(6, 7);
+	graph.search(2);
+
 #pragma endregion
 
 }
