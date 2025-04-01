@@ -1,88 +1,74 @@
 ﻿#include <iostream>
 
-#include <queue>
+#define SIZE 6
 
-#include <vector>
-
-#define SIZE 8
+int list[SIZE];
 
 using namespace std;
 
-class Graph
+int find(int x)
 {
-private:
-	queue<int> queue;
-	vector<int> adjacencyList[SIZE];
-	int degree[SIZE];
-public:
-	Graph()
+	if (x == list[x])
 	{
-		for (int i = 0; i < SIZE;i++)
-		{
-			degree[i] = 0;
-		}
+		return x;
 	}
-	void insert(int vertex, int edge)
+	else
 	{
-		adjacencyList[vertex].push_back(edge);
-		degree[edge]++;
+		return list[x] = find(list[x]);
 	}
-	void sort()
-	{
-		for (int i = 1;i < SIZE; i++)
-		{
-			if (degree[i] == 0)
-			{
-				queue.push(i);
-			}
-		}
-		while (queue.empty() == false)
-		{
-			int x = queue.front();
-			queue.pop();
-			cout << x << " ";
-			for (int i = 0; i < adjacencyList[x].size();i++)
-			{
-				int next = adjacencyList[x][i];
-				degree[next]--;
-				if (degree[next] == 0)
-				{
-					queue.push(next);
-				}
-				
-			}
-		}
-	}
+}
 
-};
+void Union(int x, int y)
+{
+	x = find(x);
+	y = find(y);
+	if (x == y)
+	{
+		return;
+	}
+	if (x < y)
+	{
+		list[y] = x;
+	}
+	else
+	{
+		list[x] = y;
+	}
+}
+
+bool same(int x, int y)
+{
+	if (find(x) == find(y))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 int main()
 {
-#pragma region 위상 정렬
+#pragma region 유니온 파인드
+
+	//	여러 노드가 존재할 때 어떤 노드가 다른 노드와 연결되어 있는 지
+	//	확인하는 알고리즘
+
+	//	Union : 특정한 두 개의 노드를 같은 집합으로 합치는 연산
+
+	//	Find : 특정한 노드가 어느 집합에 있었는 지 확인하는 연산
+
+	for (int i = 0; i < SIZE; i++)
+	{
+		list[i] = i;
+	}
+	Union(0, 1);
+	Union(3, 4);
+	Union(4, 5);
+
+	cout << find(5) << " ";
 	
-	//	병합 그래프에 존재하는 각 정점들의 선행 순서를 지키며,
-	//	모든 정점을 차례대로 진행하는 알고리즘
-
-	//	사이클이 발생하는 경우 위상 절렬을 수행할 수 없다.
-
-	//	DAG(Directed Acyclic Graph) : 사이클이 존재하지 않는 그래프
-	
-	//	시간 복잡도 : O(V + E)
-
-	// 위상 정렬 방법
-	// 1. 진입 차수가 0인 정점을 Queue에 삽입
-	// 2. Queue에서 원소를 꺼내 연결된 모든 간선을 제거
-	// 3. 간선 제거 이후에 진입 차수가 0이 된 정점을 Queue에 삽입
-	// 4. Queue가 비어있을 때까지 2~3번 작업을 반복 수행
-
-	Graph graph;
-	graph.insert(1, 2);
-	graph.insert(1, 5);
-	graph.insert(2, 3);
-	graph.insert(3, 4);
-	graph.insert(4, 6);
-	graph.insert(5, 6);
-	graph.insert(6, 7);
-	graph.sort();
 #pragma endregion
 
 }
