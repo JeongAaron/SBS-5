@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include <algorithm>
+
 #define SIZE 8
 
 using namespace std;
@@ -20,6 +22,14 @@ private:
 			this->vertexY = vertexY;
 			this->weight = weight;
 		}
+		const bool & operator<(const Edge& edge)
+		{
+			return weight < edge.weight;
+		}
+		const int & VertexX() { return vertexX; }
+		const int & VertexY() { return vertexY; }
+		const int & Weight() { return weight; }
+		
 	};
 	int cost;
 	int parent[SIZE];
@@ -37,7 +47,54 @@ public:
 	{
 		nodeList.push_back(Edge(x, y, z));
 	}
+	int find(int x)
+	{
+		if (x == parent[x])
+		{
+			return x;
+		}
+		else
+		{
+			return parent[x] = find(parent[x]);
+		}
+	}
+	void Union(int x, int y)
+	{
+		x = find(x);
+		y = find(y);
+		if (x == y)
+		{
+			return;
+		}
+		if (x < y)
+		{
+			parent[y] = x;
+		}
+		else
+		{
+			parent[x] = y;
+		}
+	}
+	bool same(int x, int y)
+	{
+		return find(x) == find(y);
+	}
+	void calculate()
+	{
+		sort(nodeList.begin(), nodeList.end());
+		for (int i = 0; i < nodeList.size();i++)
+		{
+			if (same(nodeList[i].VertexX(), nodeList[i].VertexY()) == false)
+			{
+				cost += nodeList[i].Weight();
+				Union(nodeList[i].VertexX(), nodeList[i].VertexY());
+			}
+		}
+		cout << "Cost : " << cost << endl;
 
+	}
+	
+	
 };
 int main()
 {
@@ -60,7 +117,9 @@ int main()
 	kruskal.insert(4, 7, 14);
 	kruskal.insert(5, 6, 48);
 	kruskal.insert(5, 7, 73);
+	kruskal.calculate();
 
+	
 #pragma endregion
 
 }
