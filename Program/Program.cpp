@@ -1,125 +1,120 @@
 ﻿#include <iostream>
 
-#include <vector>
+#define SIZE 6
 
-#include <algorithm>
-
-#define SIZE 8
+#define INFINITY 10000000
 
 using namespace std;
 
-class Kruskal
+class Dijkstra
 {
 private:
-	class Edge
-	{
-	private :
-		int vertexX, vertexY, weight;
-	public:
-		Edge(int vertexX, int vertexY, int weight)
-		{
-			this->vertexX = vertexX;
-			this->vertexY = vertexY;
-			this->weight = weight;
-		}
-		const bool & operator<(const Edge& edge)
-		{
-			return weight < edge.weight;
-		}
-		const int & VertexX() { return vertexX; }
-		const int & VertexY() { return vertexY; }
-		const int & Weight() { return weight; }
-		
-	};
-	int cost;
-	int parent[SIZE];
-	vector<Edge> nodeList;
+	int adjacencyList[SIZE][SIZE];
+	int distance[SIZE];
+	bool visited[SIZE];
 public:
-	Kruskal()
+	Dijkstra()
 	{
-		cost = 0;
-		for (int i = 0;i < SIZE;i++)
+		for (int i = 0; i < SIZE;i++)
 		{
-			parent[i] = i;
+			for (int j = 0; j < SIZE;j++)
+			{
+				adjacencyList[i][j] = 0;
+				visited[j] = false;
+				distance[j] = 0;
+			}
 		}
 	}
 	void insert(int x, int y, int z)
 	{
-		nodeList.push_back(Edge(x, y, z));
-	}
-	int find(int x)
-	{
-		if (x == parent[x])
+		if (x > 0 && y > 0)
 		{
-			return x;
+			adjacencyList[x-1][y-1] = z;
+			adjacencyList[y-1][x-1] = z;
 		}
 		else
 		{
-			return parent[x] = find(parent[x]);
+			cout << "Out of bounds of the 2D array" << endl;
 		}
 	}
-	void Union(int x, int y)
+	void print()
 	{
-		x = find(x);
-		y = find(y);
-		if (x == y)
+		for (int i = 0; i < SIZE;i++)
 		{
-			return;
-		}
-		if (x < y)
-		{
-			parent[y] = x;
-		}
-		else
-		{
-			parent[x] = y;
-		}
-	}
-	bool same(int x, int y)
-	{
-		return find(x) == find(y);
-	}
-	void calculate()
-	{
-		sort(nodeList.begin(), nodeList.end());
-		for (int i = 0; i < nodeList.size();i++)
-		{
-			if (same(nodeList[i].VertexX(), nodeList[i].VertexY()) == false)
+			for (int j = 0; j < SIZE; j++)
 			{
-				cost += nodeList[i].Weight();
-				Union(nodeList[i].VertexX(), nodeList[i].VertexY());
+				if (adjacencyList[i][j] != INFINITY)
+				{
+					cout << " "<<adjacencyList[i][j] << "│";
+				}
+				else
+				{
+					cout << "∞" << "│";
+				}
 			}
+			cout << endl;
+			cout << "─────────────────" << endl;
 		}
-		cout << "Cost : " << cost << endl;
-
 	}
-	
-	
+	void calculate(int start)
+	{
+		visited[start] = true;
+		for (int i = 0; i < SIZE; i++)
+		{
+			distance[i] = adjacencyList[start][i];
+		}
+	}
+	const int& Find()
+	{
+		int min = 
+		for (int i = 0; i < SIZE;i++)
+		{
+			if(visited[i]==false&&)
+		}
+	}
 };
+
 int main()
 {
-#pragma region 최소 신장 트리
+#pragma region 다익스트라 알고리즘
 
-	//	그래프의 모든 정점을 포함하면서 사이클이 존재하지 않는 부분 그래프로,
-	//	그래프의 모든 정점을 최소 비용으로 연결하는 트리
+	//	시작점으로부터 모든 노드까지의 최소 거리를 구해주는 알고리즘
 
-	//	그래프의 정점의 수가 n개일 때, 간선의 수는 n-1개
-
-	Kruskal kruskal;
-	kruskal.insert(1, 2, 64);
-	kruskal.insert(1, 4, 30);
-	kruskal.insert(1, 5, 19);
-	kruskal.insert(1, 7, 10);
-	kruskal.insert(2, 4, 25);
-	kruskal.insert(2, 5, 61);
-	kruskal.insert(3, 5, 22);
-	kruskal.insert(3, 6, 36);
-	kruskal.insert(4, 7, 14);
-	kruskal.insert(5, 6, 48);
-	kruskal.insert(5, 7, 73);
-	kruskal.calculate();
-
+	//	1. 거리 배열에 weight[시작 노드]의 값들로 초기화
+	//	2. 시작점을 방문 처리
+	//	3. 거리 배열에서 최소 비용 노드를 찾고 방문처리
+	//	   단, 이미 방문한 노드는 제외
+	//	4. 최소 비용 노드를 거쳐갈 지 고민해서 거리 배열을 갱신
+	//	   단, 이미 방문한 노드는 제외
+	//	5. 모든 노드를 방문할 때까지 3~4번 반복
 	
-#pragma endregion
+	//	방문하지 않은 노드 중에서 가장 작은 거리를 가진 노드를 방문하고,
+	//	그 노드와 연결된 다른 노드까지의 거기를 계산
 
+	Dijkstra dijkstra;
+	dijkstra.insert(1, 1, 0);
+	dijkstra.insert(1, 2, 2);
+	dijkstra.insert(1, 3, 5);
+	dijkstra.insert(1, 4, 1);
+	dijkstra.insert(1, 5, INFINITY);
+	dijkstra.insert(1, 6, INFINITY);
+	dijkstra.insert(2, 2, 0);
+	dijkstra.insert(2, 3, 3);
+	dijkstra.insert(2, 4, 2);
+	dijkstra.insert(2, 5, INFINITY);
+	dijkstra.insert(2, 6, INFINITY);
+	dijkstra.insert(3, 3, 0);
+	dijkstra.insert(3, 4, 3);
+	dijkstra.insert(3, 5, 1);
+	dijkstra.insert(3, 6, 5);
+	dijkstra.insert(4, 4, 0);
+	dijkstra.insert(4, 5, 1);
+	dijkstra.insert(4, 6, INFINITY);
+	dijkstra.insert(5, 5, 0);
+	dijkstra.insert(5, 6, 2);
+	dijkstra.insert(6, 6, 0);
+	dijkstra.print();
+
+
+#pragma endregion
 }
