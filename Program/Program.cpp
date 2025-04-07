@@ -1,120 +1,23 @@
 ﻿#include <iostream>
 
-#define SIZE 6
-
-#define INFINITY 10000000
-
 using namespace std;
-
-class Dijkstra
-{
-private:
-	int adjacencyList[SIZE][SIZE];
-	int distance[SIZE];
-	bool visited[SIZE];
-public:
-	Dijkstra()
-	{
-		for (int i = 0; i < SIZE;i++)
-		{
-			for (int j = 0; j < SIZE;j++)
-			{
-				adjacencyList[i][j] = 0;
-				visited[j] = false;
-				distance[j] = 0;
-			}
-		}
-	}
-	void insert(int x, int y, int z)
-	{
-		if (x > 0 && y > 0)
-		{
-			adjacencyList[x-1][y-1] = z;
-			adjacencyList[y-1][x-1] = z;
-		}
-		else
-		{
-			cout << "Out of bounds of the 2D array" << endl;
-		}
-	}
-	void print()
-	{
-		for (int i = 0; i < SIZE;i++)
-		{
-			for (int j = 0; j < SIZE; j++)
-			{
-				if (adjacencyList[i][j] != INFINITY)
-				{
-					cout << " "<<adjacencyList[i][j] << "│";
-				}
-				else
-				{
-					cout << "∞" << "│";
-				}
-			}
-			cout << endl;
-			cout << "─────────────────" << endl;
-		}
-	}
-	void calculate(int start)
-	{
-		visited[start] = true;
-		for (int i = 0; i < SIZE; i++)
-		{
-			distance[i] = adjacencyList[start][i];
-		}
-	}
-	const int& Find()
-	{
-		int min = 
-		for (int i = 0; i < SIZE;i++)
-		{
-			if(visited[i]==false&&)
-		}
-	}
-};
 
 int main()
 {
-#pragma region 다익스트라 알고리즘
 
-	//	시작점으로부터 모든 노드까지의 최소 거리를 구해주는 알고리즘
+#pragma region 퇴각 검색
 
-	//	1. 거리 배열에 weight[시작 노드]의 값들로 초기화
-	//	2. 시작점을 방문 처리
-	//	3. 거리 배열에서 최소 비용 노드를 찾고 방문처리
-	//	   단, 이미 방문한 노드는 제외
-	//	4. 최소 비용 노드를 거쳐갈 지 고민해서 거리 배열을 갱신
-	//	   단, 이미 방문한 노드는 제외
-	//	5. 모든 노드를 방문할 때까지 3~4번 반복
-	
-	//	방문하지 않은 노드 중에서 가장 작은 거리를 가진 노드를 방문하고,
-	//	그 노드와 연결된 다른 노드까지의 거기를 계산
+	//	해를 찾아가는 도중에 지금 경로가 해가 될 것 같지 않으면,
+	//	더 이상 깊이 들어가지 않고, 이전 단계로 다시 돌아가는 알고리즘
 
-	Dijkstra dijkstra;
-	dijkstra.insert(1, 1, 0);
-	dijkstra.insert(1, 2, 2);
-	dijkstra.insert(1, 3, 5);
-	dijkstra.insert(1, 4, 1);
-	dijkstra.insert(1, 5, INFINITY);
-	dijkstra.insert(1, 6, INFINITY);
-	dijkstra.insert(2, 2, 0);
-	dijkstra.insert(2, 3, 3);
-	dijkstra.insert(2, 4, 2);
-	dijkstra.insert(2, 5, INFINITY);
-	dijkstra.insert(2, 6, INFINITY);
-	dijkstra.insert(3, 3, 0);
-	dijkstra.insert(3, 4, 3);
-	dijkstra.insert(3, 5, 1);
-	dijkstra.insert(3, 6, 5);
-	dijkstra.insert(4, 4, 0);
-	dijkstra.insert(4, 5, 1);
-	dijkstra.insert(4, 6, INFINITY);
-	dijkstra.insert(5, 5, 0);
-	dijkstra.insert(5, 6, 2);
-	dijkstra.insert(6, 6, 0);
-	dijkstra.print();
+	//	퇴각 검색의 유망성 판단
+	//	해가 될 만한지 판단한 후에 유망하지 않다고 결정되면,
+	//	그 노드의 이전 노드로 돌아가 다음 자식 노드로 이동
+
+	//	해가 될 만한 기능이 있으면 유망하다(Promising)
+	//	유명하지 않은 노드에 가지 않는 것(Pruning)
 
 
 #pragma endregion
+
 }
